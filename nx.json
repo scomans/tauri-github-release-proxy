@@ -20,7 +20,7 @@
   },
   "projects": {
     "backend": {
-      "tags": []
+      "tags": ["app", "nest"]
     }
   }
 }
