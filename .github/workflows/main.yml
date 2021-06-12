@@ -48,4 +48,4 @@ jobs:
           context: dist/apps/backend
           file: dist/apps/backend/Dockerfile
           push: true
-          tags: keyle/electron-github-release-proxy:latest keyle/electron-github-release-proxy:${{ github.sha }}
+          tags: keyle/electron-github-release-proxy:latest,keyle/electron-github-release-proxy:${{ github.sha }}
