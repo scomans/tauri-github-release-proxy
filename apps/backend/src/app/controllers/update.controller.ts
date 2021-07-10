@@ -65,6 +65,8 @@ export class UpdateController {
       headers,
       responseType: 'stream',
     }).toPromise();
+    res.setHeader('Content-Length', stream.headers['content-length']);
+    res.setHeader('Content-Type', stream.headers['content-type']);
 
     return stream.data.pipe(res);
   }
