@@ -1,5 +1,7 @@
-import { Controller, Get, HttpService, Inject, NotFoundException, Param, Res } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Controller, Get, Inject, NotFoundException, Param, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { lastValueFrom } from 'rxjs';
 import { PROXY_CONFIG } from '../app.const';
 import { CacheService } from '../services/cache.service';
 import { Release } from '../types/release';
@@ -61,10 +63,12 @@ export class UpdateController {
       throw new NotFoundException('File not found!');
     }
 
-    const stream = await this.httpService.get(asset.url, {
-      headers,
-      responseType: 'stream',
-    }).toPromise();
+    const stream = await lastValueFrom(
+      this.httpService.get(asset.url, {
+        headers,
+        responseType: 'stream',
+      }),
+    );
     res.setHeader('Content-Length', stream.headers['content-length']);
     res.setHeader('Content-Type', stream.headers['content-type']);
 
