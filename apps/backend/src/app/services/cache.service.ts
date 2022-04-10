@@ -58,8 +58,6 @@ export class CacheService {
     let { data: releases } = await this.request('GET /repos/{owner}/{repo}/releases');
     releases = releases.filter(release => !release.draft && release.tag_name.startsWith(this.versionPrefix));
 
-    const decoder = new TextDecoder('utf-8');
-
     const latestRelease = releases.find(release => !release.prerelease);
     if (latestRelease) {
       const infoFileAsset = latestRelease.assets.find(asset => asset.name === 'latest.yml');
@@ -69,13 +67,13 @@ export class CacheService {
           headers: {
             Accept: 'application/octet-stream',
           },
-        } as SafeAny) as unknown as { data: BufferSource };
+        } as SafeAny) as unknown as { data: string };
 
         this.latestRelease = {
           version: latestRelease.tag_name.replace(this.versionPrefix, ''),
           prerelease: false,
           data: latestRelease,
-          info: decoder.decode(result.data),
+          info: result.data,
         };
       }
     }
@@ -89,13 +87,13 @@ export class CacheService {
           headers: {
             Accept: 'application/octet-stream',
           },
-        } as SafeAny) as unknown as { data: BufferSource };
+        } as SafeAny) as unknown as { data: string };
 
         this.latestPrerelease = {
           version: latestPrerelease.tag_name.replace(this.versionPrefix, ''),
           prerelease: true,
           data: latestPrerelease,
-          info: decoder.decode(result.data),
+          info: result.data,
         };
       }
     }
