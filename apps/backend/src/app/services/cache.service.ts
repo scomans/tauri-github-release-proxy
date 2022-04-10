@@ -5,11 +5,14 @@ import { PROXY_CONFIG } from '../app.const';
 import { Release } from '../types/release';
 import { SafeAny } from '../types/safe-any';
 
+
 interface RequestParams {
   owner: string;
   repo: string;
   headers?: Record<string, string>;
 }
+
+const decoder = new TextDecoder('utf-8');
 
 @Injectable()
 export class CacheService {
@@ -67,15 +70,15 @@ export class CacheService {
           headers: {
             Accept: 'application/octet-stream',
           },
-        } as SafeAny) as unknown as { data: string };
+        } as SafeAny) as unknown as { data: string | BufferSource };
 
-        console.log(result.data);
+        const info = typeof result.data === 'string' ? result.data : decoder.decode(result.data);
 
         this.latestRelease = {
           version: latestRelease.tag_name.replace(this.versionPrefix, ''),
           prerelease: false,
           data: latestRelease,
-          info: result.data,
+          info,
         };
       }
     }
@@ -89,15 +92,15 @@ export class CacheService {
           headers: {
             Accept: 'application/octet-stream',
           },
-        } as SafeAny) as unknown as { data: string };
+        } as SafeAny) as unknown as { data: string | BufferSource };
 
-        console.log(result.data);
+        const info = typeof result.data === 'string' ? result.data : decoder.decode(result.data);
 
         this.latestPrerelease = {
           version: latestPrerelease.tag_name.replace(this.versionPrefix, ''),
           prerelease: true,
           data: latestPrerelease,
-          info: result.data,
+          info,
         };
       }
     }
