@@ -69,6 +69,8 @@ export class CacheService {
           },
         } as SafeAny) as unknown as { data: string };
 
+        console.log(result.data);
+
         this.latestRelease = {
           version: latestRelease.tag_name.replace(this.versionPrefix, ''),
           prerelease: false,
@@ -88,6 +90,8 @@ export class CacheService {
             Accept: 'application/octet-stream',
           },
         } as SafeAny) as unknown as { data: string };
+
+        console.log(result.data);
 
         this.latestPrerelease = {
           version: latestPrerelease.tag_name.replace(this.versionPrefix, ''),
