@@ -1,9 +1,9 @@
 import { Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { request } from '@octokit/request';
-import { RequestInterface } from '@octokit/types';
+import type { RequestInterface } from '@octokit/types';
 import { PROXY_CONFIG } from '../app.const';
-import { Release } from '../types/release';
-import { SafeAny } from '../types/safe-any';
+import type { Release } from '../types/release';
+import type { SafeAny } from '../types/safe-any';
 
 
 interface RequestParams {

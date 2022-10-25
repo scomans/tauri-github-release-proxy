@@ -1,10 +1,11 @@
 import { HttpService } from '@nestjs/axios';
 import { Controller, Get, Inject, NotFoundException, Param, Res } from '@nestjs/common';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { lastValueFrom } from 'rxjs';
 import { PROXY_CONFIG } from '../app.const';
 import { CacheService } from '../services/cache.service';
-import { Release } from '../types/release';
+import type { Release } from '../types/release';
+
 
 @Controller('update')
 export class UpdateController {

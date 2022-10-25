@@ -1,9 +1,10 @@
-import { Endpoints } from '@octokit/types/dist-types/generated/Endpoints';
-import { ArrayType } from './array';
+import type { Endpoints } from '@octokit/types';
+import type { IterableElement } from 'type-fest';
+
 
 export interface Release {
   version: string;
   prerelease: boolean;
-  data: ArrayType<Endpoints['GET /repos/{owner}/{repo}/releases']['response']['data']>;
+  data: IterableElement<Endpoints['GET /repos/{owner}/{repo}/releases']['response']['data']>;
   info: string;
 }

@@ -1,10 +1,10 @@
 {
-  "root": "apps/backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/backend/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/backend",
@@ -25,10 +25,17 @@
           },
           {
             "input": ".",
-            "glob": "yarn.lock",
+            "glob": "pnpm-lock.yaml",
+            "output": "."
+          },
+          {
+            "input": ".",
+            "glob": ".npmrc",
             "output": "."
           }
-        ]
+        ],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -59,9 +66,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/backend"],
+      "outputs": ["{workspaceRoot}/coverage/apps/backend"],
       "options": {
-        "jestConfig": "apps/backend/jest.config.js",
+        "jestConfig": "apps/backend/jest.config.ts",
         "passWithNoTests": true
       }
     }

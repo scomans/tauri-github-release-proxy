@@ -1,8 +1,12 @@
-FROM node:14-alpine
+FROM node:16-alpine
+
+RUN apk add --no-cache --virtual pnpm-install curl \
+ && npm install -g pnpm \
+ && apk del pnpm-install
 
 WORKDIR /app
 COPY . .
-RUN yarn install --production --frozen-lockfile
+RUN pnpm install --production
 
 EXPOSE 3333
 CMD ["node", "main.js"]
