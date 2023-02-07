@@ -70,7 +70,7 @@ export class CacheService {
       const signatureFiles = release.assets.filter(asset => asset.name.endsWith(`.sig`));
       for (const signatureFile of signatureFiles) {
         const filename = signatureFile.name.substring(0, signatureFile.name.length - 4);
-        const platformFile = release.assets.filter(asset => asset.name === filename);
+        const platformFile = release.assets.find(asset => asset.name === filename)?.name;
         if (!platformFile) {
           continue;
         }
