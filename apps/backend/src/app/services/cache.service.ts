@@ -69,12 +69,12 @@ export class CacheService {
 
       const signatureFiles = release.assets.filter(asset => asset.name.endsWith(`.sig`));
       for (const signatureFile of signatureFiles) {
-        const filename = signatureFile.name.substring(0, signatureFile.name.length - 4);
-        const platformFile = release.assets.find(asset => asset.name === filename)?.name;
+        const platformFileName = signatureFile.name.substring(0, signatureFile.name.length - 4);
+        const platformFile = release.assets.find(asset => asset.name === platformFileName);
         if (!platformFile) {
           continue;
         }
-        const platform = this.getPlatform(filename);
+        const platform = this.getPlatform(platformFileName);
         if (isNil(platform)) {
           continue;
         }
@@ -91,8 +91,8 @@ export class CacheService {
         platforms[platform] = {
           signature,
           url: process.env.BASE_URL
-            ? `${ensureEndsWith(process.env.BASE_URL, '/')}update/releases/${version}/${platformFile}`
-            : signatureFile.browser_download_url,
+            ? `${ensureEndsWith(process.env.BASE_URL, '/')}update/releases/${version}/${platformFileName}`
+            : platformFile.browser_download_url,
         };
       }
 
