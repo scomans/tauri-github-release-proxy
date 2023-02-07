@@ -91,7 +91,7 @@ export class CacheService {
         platforms[platform] = {
           signature,
           url: process.env.BASE_URL
-            ? `${ensureEndsWith(process.env.BASE_URL, '/')}update/releases/${version}/${filename}`
+            ? `${ensureEndsWith(process.env.BASE_URL, '/')}update/releases/${version}/${platformFile}`
             : signatureFile.browser_download_url,
         };
       }
