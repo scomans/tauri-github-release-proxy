@@ -1,12 +1,14 @@
 version: "3.2"
 services:
   proxy:
-    image: keyle/electron-github-release-proxy:latest
+    image: keyle/tauri-github-release-proxy:latest
     environment:
+      - BASE_URL=<Used for download URLs on private repos>
       - ACCOUNT=<Put Your GitHub Username Here>
       - REPOSITORY=<Put Your Repo Here>
       - VERSION_PREFIX=<If You App Has A Prefix Put It Here>
       - TOKEN=<PAT>
+      - INTERVAL=<Interval at which requests trigger a release check>
     ports:
       - 127.0.0.1:5052:3333
     restart: always

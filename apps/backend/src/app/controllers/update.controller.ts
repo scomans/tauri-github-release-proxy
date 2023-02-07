@@ -1,65 +1,42 @@
 import { HttpService } from '@nestjs/axios';
-import { Controller, Get, Inject, NotFoundException, Param, Res } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Res } from '@nestjs/common';
 import type { Response } from 'express';
 import { lastValueFrom } from 'rxjs';
-import { PROXY_CONFIG } from '../app.const';
 import { CacheService } from '../services/cache.service';
-import type { Release } from '../types/release';
-
+import * as process from 'process';
 
 @Controller('update')
 export class UpdateController {
+  constructor(private readonly cacheService: CacheService, private readonly httpService: HttpService) {}
 
-  constructor(
-    private readonly cacheService: CacheService,
-    private readonly httpService: HttpService,
-    @Inject(PROXY_CONFIG) private readonly config,
-  ) {
+  @Get('check')
+  async latestRelease() {
+    const release = await this.cacheService.getLatestRelease();
+
+    return {
+      version: release.version,
+      notes: `${process.env.ACCOUNT}/${process.env.REPOSITORY} v${release.version}`,
+      pub_date: release.data.created_at,
+      platforms: release.platforms,
+    };
   }
 
-  @Get('(:channel/)?*.yml')
-  async latestPrerelease(
-    @Param('channel') channel: string,
-  ) {
-    let release: Release;
-    switch (channel?.toLowerCase()) {
-      case 'alpha':
-      case 'beta':
-        release = await this.cacheService.getRelease(true);
-        break;
-      default:
-        release = await this.cacheService.getRelease();
-    }
-
-    return release.info;
-  }
-
-  @Get('(:channel/)?(:file).(:ext)')
+  @Get('releases/:version/:filename')
   async download(
-    @Param('channel') channel: string,
-    @Param('file') file: string,
-    @Param('ext') ext: string,
+    @Param('version') version: string,
+    @Param('filename') filename: string,
     @Res() res: Response,
   ) {
-    let release: Release;
-    switch (channel?.toLowerCase()) {
-      case 'alpha':
-      case 'beta':
-        release = await this.cacheService.getRelease(true);
-        break;
-      default:
-        release = await this.cacheService.getRelease();
-    }
+    const release = await this.cacheService.getRelease(version);
 
     const headers: Record<string, string> = {
       Accept: 'application/octet-stream',
     };
-    if (this.config.TOKEN && this.config.TOKEN.length > 0) {
-      headers.Authorization = 'token ' + this.config.TOKEN;
+    if (process.env.TOKEN && process.env.TOKEN.length > 0) {
+      headers.Authorization = 'token ' + process.env.TOKEN;
     }
 
-    const asset = release.data.assets.find(asset => asset.name.endsWith(`${ file }.${ ext }`));
-
+    const asset = release.data.assets.find(asset => asset.name === filename);
     if (!asset) {
       throw new NotFoundException('File not found!');
     }

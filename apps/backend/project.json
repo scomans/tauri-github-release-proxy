@@ -25,11 +25,6 @@
           },
           {
             "input": ".",
-            "glob": "pnpm-lock.yaml",
-            "output": "."
-          },
-          {
-            "input": ".",
             "glob": ".npmrc",
             "output": "."
           }
@@ -66,12 +61,18 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/backend"],
+      "outputs": [
+        "{workspaceRoot}/coverage/apps/backend"
+      ],
       "options": {
         "jestConfig": "apps/backend/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
-  "tags": ["app", "nest"]
+  "tags": [
+    "app",
+    "nest"
+  ],
+  "name": "backend"
 }

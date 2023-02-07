@@ -2,7 +2,6 @@ import { Controller, Get } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-
   @Get()
   status() {
     return { status: 'ok' };
@@ -10,6 +9,6 @@ export class AppController {
 
   @Get('check')
   check() {
-    return { server: 'electron-github-release-proxy' };
+    return { server: 'tauri-github-release-proxy' };
   }
 }
