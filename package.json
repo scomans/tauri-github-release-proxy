@@ -49,6 +49,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@nestjs/core",
       "@parcel/watcher",
       "nx"
     ]
