@@ -113,7 +113,7 @@ export class CacheService {
   }
 
   private getPlatform(fileName: string) {
-    if (fileName.match(/_x64(_[a-z]{2}-[A-Z]{2})?\.msi\.zip(\.sig)?/gm)) {
+    if (fileName.match(/_x64(_[a-z]{2}-[A-Z]{2})?\.msi(\.zip)?(\.sig)?/gm)) {
       return 'windows-x86_64';
     }
     return undefined;
