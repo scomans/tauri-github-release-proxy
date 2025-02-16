@@ -5,7 +5,6 @@ A proxy for electron apps to download private release assets
 ### Start this image via `docker-compose`
 
 ```yaml
-version: "3.2"
 services:
   proxy:
     image: keyle/electron-github-release-proxy:latest
