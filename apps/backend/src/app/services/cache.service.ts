@@ -119,6 +119,10 @@ export class CacheService {
     if (fileName.match(/_x64(_[a-z]{2}-[A-Z]{2})?\.msi(\.zip)?(\.sig)?/gm)) {
       return 'windows-x86_64';
     }
+    // AppImage, e.g. `app_1.0.0_amd64.AppImage` or `app_1.0.0_amd64.AppImage.tar.gz`
+    if (fileName.match(/_amd64\.AppImage(\.tar\.gz)?$/)) {
+      return 'linux-x86_64';
+    }
     return undefined;
   }
 
