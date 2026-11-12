@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:26-slim
 
 RUN apk add --no-cache --virtual pnpm-install curl \
  && npm install -g pnpm \
