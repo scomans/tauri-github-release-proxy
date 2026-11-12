@@ -51,8 +51,14 @@ export class UpdateController {
         responseType: 'stream',
       }),
     );
-    res.setHeader('Content-Length', stream.headers['content-length']);
-    res.setHeader('Content-Type', stream.headers['content-type']);
+    const contentLength = stream.headers['content-length'];
+    const contentType = stream.headers['content-type'];
+    if (contentLength != null) {
+      res.setHeader('Content-Length', String(contentLength));
+    }
+    if (contentType != null) {
+      res.setHeader('Content-Type', String(contentType));
+    }
 
     return stream.data.pipe(res);
   }

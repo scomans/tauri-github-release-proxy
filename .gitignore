@@ -42,3 +42,13 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
