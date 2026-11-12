@@ -20,6 +20,7 @@ const configValues = {
     },
     production: {
       optimization: true,
+      outputHashing: 'none',
       extractLicenses: true,
       inspect: false,
       fileReplacements: [
