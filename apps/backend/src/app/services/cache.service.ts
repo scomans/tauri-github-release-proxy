@@ -62,6 +62,9 @@ export class CacheService {
     if (release) {
       version = version ?? release.tag_name.replace(process.env.VERSION_PREFIX, '');
       if (this.releases[version]) {
+        if (updateLatest) {
+          this.latestRelease = this.releases[version];
+        }
         return this.releases[version];
       }
 
@@ -130,6 +133,9 @@ export class CacheService {
   }
 
   async getRelease(version: string) {
+    if (version === 'latest') {
+      return this.getLatestRelease();
+    }
     if (this.releases[version]) {
       return this.releases[version];
     }

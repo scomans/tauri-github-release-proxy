@@ -36,7 +36,11 @@ export class UpdateController {
       headers.Authorization = 'token ' + process.env.TOKEN;
     }
 
-    const asset = release.data.assets.find(asset => asset.name === filename);
+    // For `latest`, the version inside the filename isn't known by the client,
+    // so `latest` may be used as a placeholder (e.g. `Landing_latest_x64_de-DE.msi`).
+    const candidates =
+      version === 'latest' ? [filename, filename.split('latest').join(release.version)] : [filename];
+    const asset = release.data.assets.find(asset => candidates.includes(asset.name));
     if (!asset) {
       throw new NotFoundException('File not found!');
     }
