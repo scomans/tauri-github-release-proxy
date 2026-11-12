@@ -1,13 +1,12 @@
-import { HttpService } from '@nestjs/axios';
 import { Controller, Get, NotFoundException, Param, Res } from '@nestjs/common';
+import { HttpClient } from '@nestjs/http-client';
 import type { Response } from 'express';
-import { lastValueFrom } from 'rxjs';
 import { CacheService } from '../services/cache.service';
 import * as process from 'process';
 
 @Controller('update')
 export class UpdateController {
-  constructor(private readonly cacheService: CacheService, private readonly httpService: HttpService) {}
+  constructor(private readonly cacheService: CacheService, private readonly httpClient: HttpClient) {}
 
   @Get('check')
   async latestRelease() {
@@ -45,14 +44,12 @@ export class UpdateController {
       throw new NotFoundException('File not found!');
     }
 
-    const stream = await lastValueFrom(
-      this.httpService.get(asset.url, {
-        headers,
-        responseType: 'stream',
-      }),
-    );
-    const contentLength = stream.headers['content-length'];
-    const contentType = stream.headers['content-type'];
+    const stream = await this.httpClient.get(asset.url, {
+      headers,
+      responseType: 'stream',
+    });
+    const contentLength = stream.headers.get('content-length');
+    const contentType = stream.headers.get('content-type');
     if (contentLength != null) {
       res.setHeader('Content-Length', String(contentLength));
     }

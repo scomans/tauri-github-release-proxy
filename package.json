@@ -9,13 +9,12 @@
   },
   "private": true,
   "dependencies": {
-    "@nestjs/axios": "^12.0.1",
     "@nestjs/common": "12.4.2",
     "@nestjs/core": "12.4.2",
+    "@nestjs/http-client": "^0.0.3",
     "@nestjs/platform-express": "12.4.2",
     "@octokit/request": "^10.0.16",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "~7.8.2",
     "tslib": "^2.9.1"
   },
   "devDependencies": {
