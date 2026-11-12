@@ -17,18 +17,18 @@ jobs:
       - name: Setup up PNPM
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 12
 
-      - name: Setup up Node 22
+      - name: Setup up Node 26
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 26
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: 🏗️ Build Backend
+      - name: Build Backend
         run: pnpm build backend --prod
 
       - name: Set up Docker Buildx
