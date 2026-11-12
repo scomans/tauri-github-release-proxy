@@ -1,8 +1,6 @@
 FROM node:26-slim
 
-RUN apk add --no-cache --virtual pnpm-install curl \
- && npm install -g pnpm \
- && apk del pnpm-install
+RUN npm install -g pnpm
 
 WORKDIR /app
 COPY . .
